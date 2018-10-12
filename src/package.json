@@ -1,0 +1,58 @@
+{
+  "name": "next-framework",
+  "version": "1.0.0",
+  "description": "A framework for running next with an express server the the docker wercker ecosystem",
+  "main": "server/index.js",
+  "scripts": {
+    "lint": "node_modules/.bin/standard",
+    "dev": "node_modules/.bin/forever --killSignal=SIGTERM --minUptime 1000 --spinSleepTime 1000 server/index.js -p 80",
+    "build": "next build client",
+    "export": "next export client",
+    "start": "next build client && next start client -p 80",
+    "analyze": "cross-env ANALYZE=1 next build client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nich-mctishe/next-wercker-framework.git"
+  },
+  "keywords": [
+    "docker",
+    "wercker",
+    "nextjs",
+    "react",
+    "express"
+  ],
+  "author": "Nicholas Headlong <nichheadlong@googlemail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nich-mctishe/next-wercker-framework/issues"
+  },
+  "homepage": "https://github.com/nich-mctishe/next-wercker-framework#readme",
+  "dependencies": {
+    "standard": "11.0.1",
+    "forever": "0.15.3",
+    "next": "6.1.1",
+    "react": "16.4.1",
+    "next-redux-wrapper": "2.0.0-beta.6",
+    "react-dom": "16.4.1",
+    "normalize.css": "8.0.0",
+    "express": "^4.16.2",
+    "node-sass": "4.9.2 ",
+    "@zeit/next-sass": "^0.2.0",
+    "redux": "4.0.0",
+    "react-redux": "5.0.7",
+    "redux-logger": "3.0.6",
+    "redux-thunk": "2.3.0",
+    "redux-promise-middleware": "5.1.1",
+    "axios": "0.18.0",
+    "cross-env": "5.2.0",
+    "webpack-bundle-analyzer": "2.13.1",
+    "node-seeder": "https://github.com/nich-mctishe/node-seeder.git#1.0.3",
+    "mongoose": "5.0.6",
+    "mongoose-find-or-create": "1.2.0",
+    "lodash": "4.17.10"
+  },
+  "devDependencies": {
+    "chokidar": "1.6.1"
+  }
+}

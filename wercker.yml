@@ -1,0 +1,124 @@
+box:
+  id: node
+  tag: 8.6.0
+  ports:
+    - '80'
+    - '8888'
+    - '8889'
+
+services:
+  - id: mongo
+    tag: 3.4.1
+    ports:
+     - '27017'
+
+dev:
+  steps:
+    - script:
+        name: check local environment
+        code: |
+          [[ -f ENVIRONMENT_LOCAL || "$(cat ENVIRONMENT_LOCAL.template | xargs)" == "" ]] || ( echo "No ENVIRONMENT_LOCAL present, please create one based on ENVIRONMENT_LOCAL.template" && exit 1 )
+        cwd: $WERCKER_ROOT
+    - script:
+      name: remove cache
+      code: rm -rf ./cache
+    - script:
+      name: install dependencies
+      code: HOME=$YARN_CACHE yarn
+      cwd: $WERCKER_ROOT/src
+    - script:
+        name: adding tools
+        code: |
+          ln -s "$WERCKER_ROOT/tools/log" /usr/bin/log
+          ln -s "$WERCKER_ROOT/tools/reload" /usr/bin/reload
+          ln -s "$WERCKER_ROOT/tools/reload" /usr/bin/restart
+    - script:
+        name: run
+        code: |
+          touch /var/log/express.log
+          yarn dev >> /var/log/express.log 2>&1 &
+        cwd: $WERCKER_ROOT/src
+    - internal/shell:
+        code: |
+          stty columns $TERMINAL_COLUMNS
+          stty rows $TERMINAL_ROWS
+          log
+
+build:
+  steps:
+    - npm-install:
+        name: install node dependencies
+        options: --no-optional --silent
+        cwd: $WERCKER_ROOT/src
+    - npm-test:
+        name: run tests
+        cwd: $WERCKER_ROOT/src
+    - script:
+        name: run webpack
+        code: npm run webpack -- -p
+        cwd: $WERCKER_ROOT/src
+    - script:
+        name: export the application
+        code: |
+          cp -r "$WERCKER_ROOT/src" "$WERCKER_OUTPUT_DIR"
+          cp -r "$WERCKER_ROOT/dokku" "$WERCKER_OUTPUT_DIR"
+          mv "$WERCKER_OUTPUT_DIR/dokku/Dockerfile" "$WERCKER_OUTPUT_DIR/Dockerfile"
+          cp "$WERCKER_ROOT/tools/healthcheck" "$WERCKER_OUTPUT_DIR/healthcheck"
+          rm -rf "$WERCKER_OUTPUT_DIR/src/node_modules"
+          rm -rf "$WERCKER_OUTPUT_DIR/src/public/css"
+    - npm-install:
+        name: install node production dependencies
+        options: --no-optional --silent --only=production
+        cwd: "$WERCKER_OUTPUT_DIR/src"
+
+deploy-dokku:
+  steps:
+    - add-to-known_hosts:
+        hostname: $DOKKU_HOST
+    - add-ssh-key:
+        keyname: DOKKU_KEY
+    - script:
+        name: Initialize new repository
+        code: |
+          rm -rf .git
+          git init
+          git config --global user.name "wercker"
+          git config --global user.email "pleasemailus@wercker.com"
+          git remote add dokku dokku@$DOKKU_HOST:$DOKKU_APP
+    - script:
+        name: Add everything to the repository
+        code: |
+          git add .
+          git commit --quiet -m "Result of deploy $WERCKER_GIT_COMMIT"
+    - script:
+        name: Push to dokku
+        code: |
+          git push -f dokku master
+
+docker-push:
+  box:
+    id: node
+    tag: 8.6.0-alpine
+    cmd: /bin/sh
+  steps:
+    - script:
+        name: clean
+        code: |
+          rm -rf "$WERCKER_ROOT/Dockerfile"
+          rm -rf "$WERCKER_ROOT/dokku"
+    - script:
+        name: add healthcheck
+        code: |
+          mv "$WERCKER_ROOT/healthcheck" /usr/bin/healthcheck
+    - internal/docker-push:
+        username: $DOCKER_REGISTRY_USERNAME
+        password: $DOCKER_REGISTRY_PASSWORD
+        tag: $WERCKER_GIT_COMMIT
+        repository: $DOCKER_REGISTRY_REPO
+        registry: $DOCKER_REGISTRY
+        working-dir: "$WERCKER_ROOT/src"
+        cmd: npm run production
+        ports: "80"
+    - script:
+        name: success
+        code: success "image pushed - $DOCKER_REGISTRY_REPO:$WERCKER_GIT_COMMIT"

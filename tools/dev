@@ -1,0 +1,20 @@
+#!/bin/bash
+
+source tools/_colours
+
+MACHINE_IP="$(docker-machine ip $DOCKER_MACHINE_NAME)"
+MACHINE_URL="http://localhost"
+
+echo ""
+echo -e "Setting up local development"
+echo -e "============================"
+echo -e "${BGreen}Web${Color_Off}             $MACHINE_URL:80"
+echo -e "${BPurple}BrowserSync${Color_Off}     $MACHINE_URL:3000"
+echo -e "${BYellow}BrowserSync UI${Color_Off}  $MACHINE_URL:3001"
+echo ""
+
+export X_TERMINAL_COLUMNS=$(tput cols)
+export X_TERMINAL_ROWS=$(tput lines)
+
+# --expose-ports "$@"
+wercker dev --expose-ports "$@"

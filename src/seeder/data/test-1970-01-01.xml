@@ -1,0 +1,6 @@
+<data>
+  <model id="1" model="TestRelationship" name="Nich" value="1" slug="nich"></model>
+  <model id="2" model="Test" name="Nich" value="1" slug="nich">
+    <model model="TestRelationship" parent="true" ref="1" refName="testRelationship"></model>
+  </model>
+</data>

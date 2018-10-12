@@ -1,0 +1,25 @@
+[
+  {
+    "model": "test",
+    "data": {
+      "name": "Nich",
+      "slug": "nich",
+      "value": 1,
+      "testRelationship": {
+        "type": "parent",
+        "model": "test",
+        "data": {
+          "slug": "nich"
+        }
+      }
+    }
+  },
+  {
+    "model": "testRelationship",
+    "data": {
+      "name": "Nich",
+      "slug": "nich",
+      "value": 1
+    }
+  }
+]

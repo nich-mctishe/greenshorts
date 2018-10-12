@@ -1,0 +1,7 @@
+#!/bin/bash
+
+clear
+
+echo "Viewing application log, hit ctrl+c to end and return to the command line"
+
+tail -f -s 0.1 /var/log/express.log

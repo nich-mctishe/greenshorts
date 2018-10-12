@@ -1,0 +1,4 @@
+#!/bin/bash
+
+/app/src/node_modules/.bin/forever restartall
+log
