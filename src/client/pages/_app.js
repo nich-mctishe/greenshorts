@@ -4,6 +4,8 @@ import App, { Container } from 'next/app'
 import withRedux from 'next-redux-wrapper'
 import makeStore from '../storage'
 
+import '../assets/css/styles.scss'
+
 class MyApp extends App {
 
   static async getInitialProps ({Component, ctx}) {

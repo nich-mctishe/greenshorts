@@ -20,6 +20,7 @@ const meta = {
 module.exports = (data, models, helper, next) => {
   // for xml
   // data = helper.format.toStandardType(data)
+
   helper.logging.init(meta)
   let parents = []
   // run required tasks here. for example:

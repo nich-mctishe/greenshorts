@@ -1,6 +1,6 @@
 box:
   id: node
-  tag: 8.6.0
+  tag: 8.10.0
   ports:
     - '80'
     - '8888'

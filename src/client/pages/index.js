@@ -12,8 +12,7 @@ const PostLink = (props) => (
 
 export default () => (
   <div>
-    <Link href='/about'> About
-    </Link>
+    <Link href='/about'><a>About</a></Link>
     <h1>My Blog</h1>
     <ul>
       <PostLink id='hello-nextjs' title='Hello Next.js' />
