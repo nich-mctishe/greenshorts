@@ -30,9 +30,10 @@ module.exports = (data, models, helper, next) => {
 
       return callback()
     }
+
     // if model has a parent, put in parents, then move to next
     helper.model.insert(
-      models[line.model],
+      models[helper.string.isTitle(line.model) ? helper.string.classCase(line.model) : line.model],
       {slug: line.data.slug},
       line.data,
       callback
@@ -50,8 +51,8 @@ module.exports = (data, models, helper, next) => {
       let parentIndex = helper.model.find.parentIndex(line.data)
 
       helper.model.insertParent(
-        models[parentIndex],
-        models[line.model],
+        models[helper.string.isTitle(parentIndex) ? helper.string.classCase(parentIndex) : parentIndex],
+        models[helper.string.isTitle(line.model) ? helper.string.classCase(line.model) : line.model],
         parent,
         {slug: line.data.slug},
         parentIndex,
