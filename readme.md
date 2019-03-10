@@ -6,7 +6,7 @@ A NextJs framework extension, dockerised and built to use the Wercker CI tool an
 - **1.0.1**
   Uses next 6
 
-- **2.0.0**
+- **2.0.1**
   Uses next 8.
 
 # System requirements
