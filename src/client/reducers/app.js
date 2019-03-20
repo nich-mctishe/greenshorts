@@ -1,3 +1,5 @@
+// app could get cookie value
+
 export default function appReducer (state = {
     title: 'This is a title'
   } , action) {

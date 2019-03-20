@@ -6,6 +6,7 @@ export default class MyDocument extends Document {
       <html>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+        <script src="https://js.stripe.com/v3/"></script>
       </Head>
       <body>
         <Main />

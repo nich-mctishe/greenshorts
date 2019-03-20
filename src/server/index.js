@@ -19,8 +19,9 @@ mongoose
       app.prepare()
         .then(() => {
           const server = express()
+          server.use(require("body-parser").text())
 
-          require('./routes')(server, app)         
+          require('./routes')(server, app)
 
           server.get('*', (req, res) => {
             return handle(req, res)
