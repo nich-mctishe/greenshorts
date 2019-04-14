@@ -1,13 +1,5 @@
 
-A NextJs framework extension, dockerised and built to use the Wercker CI tool and Dokku for deployment.
-
-# Versions
-
-- **1.0.1**
-  Uses next 6
-
-- **2.0.1**
-  Uses next 8.
+A NextJs storefront using strip and connecting to a a headless MCS service. Dockerised and built to use the Wercker CI tool and Dokku for deployment.
 
 # System requirements
 
