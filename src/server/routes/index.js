@@ -32,7 +32,7 @@ module.exports = (server, app) => {
           amount: 2000,
           currency: "gbp",
           description: "An example charge",
-          source: req.body
+          source: order.formatted // was req.body with a flat token, may need to amend back
         })
 
         // send requires to headless cms
@@ -41,12 +41,17 @@ module.exports = (server, app) => {
         res.json({status})
       } catch (err) {
         // turn these into proper errors --> could use async for all this
-        res.status(500).end()
+        res.status(500)
+        res.json({
+          error: true,
+          messages: Object.assign(order.messages, err)
+        })
       }
     } else {
+      res.status(500)
       res.json({
         error: true,
-        messages: order.validation.messages
+        messages: order.messages
       })
     }
   })

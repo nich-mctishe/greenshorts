@@ -5,7 +5,8 @@ const postcode = Joi.string()
   .required()
   .error(() => 'Please supply a valid uk postcode')
 
-const schema = {
+const schema = Joi.object().keys({
+  token: Joi.string().required().error(() => 'There is an issue with your card'), // this may need to be more specific
   firstname: Joi.string().alphanum().required().error(() => 'Please enter your firstname'),
   lastname: Joi.string().alphanum().required().error(() => 'Please enter your lastname'),
   email: Joi.string().email().required().error(() => 'Please enter your email address so we can confirm your order'),
@@ -27,11 +28,12 @@ const schema = {
   tandc: Joi.boolean().truthy('yes').error(() => 'please confirm you have read the terms and conditions'),
   contactTime: Joi.string().error(() => 'Contact time should be a legable'),
   items: Joi.array().min(1),
-  value: Joii.number().required()
-}
+  value: Joi.number().required()
+})
 
-const format(data, extra) => {
+const format = (data, extra) => {
   return {
+    token: data.token,
     firstname: data.firstname,
     lastname: data.lastname,
     email: data.email,
@@ -50,34 +52,36 @@ const format(data, extra) => {
     tandc: data.tandc,
     contactTime: data.contactTime,
     items: data.items, // this may need to be formatted for insertion
-    paid: extra.paid || false,
+    paid: extra && extra.paid,
     value: data.value
   }
 }
 
 class Order {
 
-  details = {}
-
-  formatted = {}
-
-  valid = false
-
-  validation = null
-
-  cmsResult = null
-
   constructor (req) {
     this.details = req.body
+    this.formatted = {}
+
+    this.valid = false
+
+    this.validation = null
+
+    this.cmsResult = null
+
+    this.messages = null
   }
 
   process () {
     // get info and parse + validate
     this.validation = Joi.validate(this.details, schema)
-    this.valid = result.error === null
-
-    // if success format
-    this.formatted = format(this.details)
+    this.valid = (this.validation.error === null)
+    if (!this.valid) {
+      this.messages = this.validation.error.details
+    } else {
+      // if success format
+      this.formatted = format(this.details)
+    }
   }
 
   result () {

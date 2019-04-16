@@ -16,25 +16,36 @@ class Payment extends Component {
 
   state = {
     complete: false,
-    message: ''
+    messages: []
   }
 
   submit = async (ev) => {
     const { firstname, lastname, stripe } = this.props
 
+    // will need to hook up to redux
     if (firstname.length && lastname.length) {
-      let { token, error } = await stripe.createToken({ name: `${firstname} ${lastname}` })
-      
+      const { token, error } = await stripe.createToken({ name: `${firstname} ${lastname}` })
+
       if (!error) {
-        let response = await fetch("/charge", {
+        const response = await fetch("/charge", {
           method: "POST",
           headers: {"Content-Type": "text/plain"},
-          body: token.id
+          body: JSON.stringify({
+            token: token.id,
+            firstname,
+            lastname
+          })
         });
 
-        if (response.ok) console.log("Purchase Complete!")
+        if (response.ok) {
+          console.log("Purchase Complete!") // amend to display better splash page
+        } else {
+          const error = await response.json()
+
+          return this.setState({ messages: error.messages || "unknown error occurred, please contact admin" })
+        }
       } else {
-        return this.setState({ message: error.message || "unknown error occurred, please contact admin" })
+        return this.setState({ messages: error.message || "unknown error occurred, please contact admin" })
       }
     }
 
@@ -46,9 +57,9 @@ class Payment extends Component {
     return (
       <div className="checkout">
         <p>Would you like to complete the purchase?</p>
-        {this.state.message && (
-          <p>{this.state.message}</p>
-        )}
+        {this.state.messages.map(message => (
+            <p key={message.context.key}>{message.message}</p>
+        ))}
         <CardElement />
         <button onClick={this.submit}>Send</button>
       </div>
