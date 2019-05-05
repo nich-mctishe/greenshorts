@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "lint": "node_modules/.bin/standard",
-    "dev": "node_modules/.bin/forever --killSignal=SIGTERM --minUptime 1000 --spinSleepTime 1000 server/index.js -p 80",
+    "dev": "node_modules/.bin/forever --killSignal=SIGTERM --minUptime 1000 --spinSleepTime 1000 server/index.js -p 3000",
     "build": "next build client",
     "export": "next export client",
     "start": "next build client && next start client -p 80",
@@ -55,7 +55,8 @@
     "lodash": "4.17.11",
     "stripe": "6.28.0",
     "body-parser": "1.18.3",
-    "joi": "14.3.1"
+    "joi": "14.3.1",
+    "async": "2.6.2"
   },
   "devDependencies": {
     "chokidar": "2.1.2",

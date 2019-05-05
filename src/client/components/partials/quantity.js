@@ -31,7 +31,7 @@ export default class Quantity extends Component {
     const updatedItem = updateValue(item, Number(item.quantity) - 1)
 
     this.props.updateQuantity(updatedItem)
-    this.setState({ item: updatedItem})
+    this.setState({ item: updatedItem })
   }
 
   increase = () => {
@@ -39,7 +39,7 @@ export default class Quantity extends Component {
     const updatedItem = updateValue(item, Number(item.quantity) + 1)
 
     this.props.updateQuantity(updatedItem)
-    this.setState({ item: updatedItem})
+    this.setState({ item: updatedItem })
   }
 
   input = event => {
@@ -47,7 +47,7 @@ export default class Quantity extends Component {
     const updatedItem = updateValue(item, event.target.value)
 
     this.props.updateQuantity(updatedItem)
-    this.setState({ item: updatedItem})
+    this.setState({ item: updatedItem })
   }
 
   componentWillMount () {

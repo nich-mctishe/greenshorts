@@ -29,8 +29,6 @@ export default class Cart extends Component {
   render () {
     const { items, value, empty } = this.props
 
-    console.log('rendering');
-
     return (
       <section className="cart">
         <div className="cart--intro">

@@ -10,6 +10,7 @@ import {
   SET_BILLING_LINE_2,
   SET_BILLING_LINE_3,
   SET_BILLING_CITY,
+  SET_BILLING_COUNTY,
   SET_BILLING_POSTCODE,
   SET_SAME_ADDRESS,
   SET_SHIPPING_NAME,
@@ -17,6 +18,7 @@ import {
   SET_SHIPPING_LINE_2,
   SET_SHIPPING_LINE_3,
   SET_SHIPPING_CITY,
+  SET_SHIPPING_COUNTY,
   SET_SHIPPING_POSTCODE,
   SET_READ_TANDC,
   IS_PAID,
@@ -29,7 +31,7 @@ import {
 // need to also make sure cookie is checked to ensure we know when the session should expire
 
 const INITIAL_STATE = {
-  cookie: '',
+  number: '',
   firstname: 'Nich',
   lastname: 'McTishe',
   email: '',
@@ -38,12 +40,14 @@ const INITIAL_STATE = {
   billingAddressLine2: '',
   billingAddressLine3: '',
   billingCity: '',
+  billingCounty: '',
   billingPostcode: '',
   shippingName: '',
   shippingAddressLine1: '',
   shippingAddressLine2: '',
   shippingAddressLine3: '',
   shippingCity: '',
+  shippingCounty: '',
   shippingPostcode: '',
   contactTime: '',
   shippingIsBilling: true,
@@ -103,6 +107,8 @@ export default function checkoutReducer (state, action) {
       return handleDualUpdate(state, 'billingAddressLine3', action.item)
     case SET_BILLING_CITY:
       return handleDualUpdate(state, 'billingCity', action.item)
+    case SET_BILLING_COUNTY:
+      return handleDualUpdate(state, 'billingCounty', action.item)
     case SET_BILLING_POSTCODE:
       return handleDualUpdate(state, 'billingPostcode', action.item)
     case SET_SHIPPING_NAME:
@@ -124,6 +130,10 @@ export default function checkoutReducer (state, action) {
     case SET_SHIPPING_CITY:
       return updateState(state, {
         shippingCity: action.item
+      })
+    case SET_SHIPPING_COUNTY:
+      return updateState(state, {
+        shippingCounty: action.item
       })
     case SET_SHIPPING_POSTCODE:
       return updateState(state, {

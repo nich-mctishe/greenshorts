@@ -12,18 +12,21 @@ const fields = {
   email: 'required|email',
   phone: 'required|phone',
   billingAddressLine1: 'required',
-  billingAddressLine2: 'required',
-  billingAddressLine3: 'required',
+  billingAddressLine2: '',
+  billingAddressLine3: '',
   billingCity: 'required',
+  billingCounty: '',
   billingPostcode: 'required',
   shippingName: 'required',
   shippingAddressLine1: 'required',
-  shippingAddressLine2: 'required',
-  shippingAddressLine3: 'required',
+  shippingAddressLine2: '',
+  shippingAddressLine3: '',
   shippingCity: 'required',
+  shippingCounty: '',
   shippingPostcode: 'required',
-  shippingIsBilling: 'required|bool',
+  shippingIsBilling: 'bool',
   tandc: 'required|bool',
+  instructions: '',
   contactTime: 'required'
 }
 
@@ -38,15 +41,18 @@ class Billing extends Component {
     billingAddressLine2: PropTypes.string,
     billingAddressLine3: PropTypes.string,
     billingCity: PropTypes.string,
+    billingCounty: PropTypes.string,
     billingPostcode: PropTypes.string,
     shippingName: PropTypes.string,
     shippingAddressLine1: PropTypes.string,
     shippingAddressLine2: PropTypes.string,
     shippingAddressLine3: PropTypes.string,
     shippingCity: PropTypes.string,
+    shippingCounty: PropTypes.string,
     shippingPostcode: PropTypes.string,
     shippingIsBilling: PropTypes.bool,
     tandc: PropTypes.bool,
+    instructions: PropTypes.string,
     contactTime: PropTypes.string
   }
 
@@ -61,28 +67,32 @@ class Billing extends Component {
     billingAddressLine2: null,
     billingAddressLine3: null,
     billingCity: null,
+    billingCounty: null,
     billingPostcode: null,
     shippingName: null,
     shippingAddressLine1: null,
     shippingAddressLine2: null,
     shippingAddressLine3: null,
     shippingCity: null,
+    shippingCounty: null,
     shippingPostcode: null,
     shippingIsBilling: null,
     tandc: null,
+    instructions: null,
     contactTime: null
   }
 
   update = (event) => {
-    const valid = validate(fields, event.target.name, event.target.value || event.target.checked)
-    let stateToUpdate = {}
-    stateToUpdate[event.target.name] = null
+    const valid = validate(fields, event.target.name, event.target.type !== 'checkbox' ? event.target.value : event.target.checked)
+    let stateToUpdate = {
+      [event.target.name]: null
+    }
 
     if (!!this.props[`set${upperFirst(event.target.name)}`]) {
       if (valid.success) {
         this.setState(stateToUpdate)
 
-        return this.props[`set${upperFirst(event.target.name)}`](event.target.value || event.target.checked)
+        return this.props[`set${upperFirst(event.target.name)}`](event.target.type !== 'checkbox' ? event.target.value : event.target.checked)
       } else {
         stateToUpdate[event.target.name] = valid.messages[event.target.name]
 
@@ -99,24 +109,236 @@ class Billing extends Component {
       <section>
 
         <form>
-          <FieldWrapper name='billingAddressLine1' title='Billing Address Line 1' messages={this.state.billingAddressLine1}>
+          <h3>You</h3>
+          <FieldWrapper name='firstname' title='Firstname' messages={this.state.firstname}>
+            <input
+              className="input"
+              name="firstname"
+              type="text"
+              placeholder="Joe"
+              defaultValue={this.props.firstname}
+              onBlur={this.update}
+              tabIndex="1"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='lastname' title='Lastname' messages={this.state.lastname}>
+            <input
+              className="input"
+              name="lastname"
+              type="text"
+              placeholder="Bloggs"
+              defaultValue={this.props.lastname}
+              onBlur={this.update}
+              tabIndex="2"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='email' title='Email Address' messages={this.state.email}>
+            <input
+              className="input"
+              name="email"
+              type="email"
+              placeholder="joe@blogger.com"
+              defaultValue={this.props.email}
+              onBlur={this.update}
+              tabIndex="3"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='phone' title='Phone Number' messages={this.state.phone}>
+            <input
+              className="input"
+              name="phone"
+              type="tel"
+              placeholder="Your digits"
+              defaultValue={this.props.phone}
+              onBlur={this.update}
+              tabIndex="4"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='contactTime' title={`when's best to contact you regarding fittings and needs?`} messages={this.state.contactTime}>
+            <input
+              className="input"
+              name="contactTime"
+              type="text"
+              placeholder=""
+              defaultValue={this.props.contactTime}
+              onBlur={this.update}
+              tabIndex="5"
+            />
+          </FieldWrapper>
+          <h3>Your billing address</h3>
+          <FieldWrapper name='billingAddressLine1' title='Address Line 1' messages={this.state.billingAddressLine1}>
             <input
               className="input"
               name="billingAddressLine1"
               type="text"
-              placeholder="123 street lane"
+              placeholder="my house"
               defaultValue={this.props.billingAddressLine1}
               onBlur={this.update}
+              tabIndex="6"
             />
           </FieldWrapper>
-          <FieldWrapper name='shippingAddressLine1' title='Shipping Address Line 1' messages={this.state.shippingAddressLine1}>
+          <FieldWrapper name='billingAddressLine2' title='Address Line 2' messages={this.state.billingAddressLine2}>
+            <input
+              className="input"
+              name="billingAddressLine2"
+              type="text"
+              placeholder="123 street lane"
+              defaultValue={this.props.billingAddressLine2}
+              onBlur={this.update}
+              tabIndex="7"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='billingAddressLine3' title='Address Line 3' messages={this.state.billingAddressLine3}>
+            <input
+              className="input"
+              name="billingAddressLine3"
+              type="text"
+              placeholder=""
+              defaultValue={this.props.billingAddressLine3}
+              onBlur={this.update}
+              tabIndex="8"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='billingCity' title='City' messages={this.state.billingCity}>
+            <input
+              className="input"
+              name="billingCity"
+              type="text"
+              placeholder="Townsbury"
+              defaultValue={this.props.billingCity}
+              onBlur={this.update}
+              tabIndex="9"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='billingCounty' title='County' messages={this.state.billingCounty}>
+            <input
+              className="input"
+              name="billingCounty"
+              type="text"
+              placeholder="Countyshire"
+              defaultValue={this.props.billingCounty}
+              onBlur={this.update}
+              tabIndex="10"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='billingPostcode' title='Postcode' messages={this.state.billingPostcode}>
+            <input
+              className="input"
+              name="billingPostcode"
+              type="text"
+              placeholder="TO5 1EG"
+              defaultValue={this.props.billingPostcode}
+              onBlur={this.update}
+              tabIndex="11"
+            />
+          </FieldWrapper>
+          <h3>Your shipping info</h3>
+          <FieldWrapper name='shippingIsBilling' title='Use Same Shipping address as Billing' messages={this.state.shippingIsBilling}>
+            <input
+              className="checkbox"
+              name="shippingIsBilling"
+              type="checkbox"
+              defaultChecked={this.props.shippingIsBilling}
+              onChange={this.update}
+              tabIndex="12"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='shippingName' title='Name' messages={this.state.shippingName}>
+            <input
+              className="input"
+              name="shippingName"
+              type="text"
+              placeholder="Joe Bloggs"
+              defaultValue={this.props.shippingName}
+              onBlur={this.update}
+              tabIndex="13"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='shippingAddressLine1' title='Address Line 1' messages={this.state.shippingAddressLine1}>
             <input
               className="input"
               name="shippingAddressLine1"
               type="text"
-              placeholder="124 street lane"
+              placeholder="my house"
               defaultValue={this.props.shippingAddressLine1}
               onBlur={this.update}
+              tabIndex="14"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='shippingAddressLine2' title='Address Line 2' messages={this.state.shippingAddressLine2}>
+            <input
+              className="input"
+              name="shippingAddressLine2"
+              type="text"
+              placeholder="123 street lane"
+              defaultValue={this.props.shippingAddressLine2}
+              onBlur={this.update}
+              tabIndex="15"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='shippingAddressLine3' title='Address Line 3' messages={this.state.shippingAddressLine3}>
+            <input
+              className="input"
+              name="shippingAddressLine3"
+              type="text"
+              placeholder=""
+              defaultValue={this.props.shippingAddressLine3}
+              onBlur={this.update}
+              tabIndex="16"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='shippingCity' title='City' messages={this.state.shippingCity}>
+            <input
+              className="input"
+              name="shippingCity"
+              type="text"
+              placeholder="Townsbury"
+              defaultValue={this.props.shippingCity}
+              onBlur={this.update}
+              tabIndex="17"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='shippingCounty' title='County' messages={this.state.shippingCounty}>
+            <input
+              className="input"
+              name="shippingCounty"
+              type="text"
+              placeholder="Countyshire"
+              defaultValue={this.props.shippingCounty}
+              onBlur={this.update}
+              tabIndex="18"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='shippingPostcode' title='Postcode' messages={this.state.shippingPostcode}>
+            <input
+              className="input"
+              name="shippingPostcode"
+              type="text"
+              placeholder="TO5 1EG"
+              defaultValue={this.props.shippingPostcode}
+              onBlur={this.update}
+              tabIndex="19"
+            />
+          </FieldWrapper>
+          <h2>Last bits</h2>
+          <FieldWrapper name='instructions' title={`Any extra instructions for items or delivery?`} messages={this.state.instructions}>
+            <textarea
+              className="input"
+              name="instructions"
+              placeholder=""
+              defaultValue={this.props.instructions}
+              onBlur={this.update}
+              tabIndex="20"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='tandc' title={`have you read and aggreed to our t&c's?`} messages={this.state.tandc}>
+            <input
+              className="checkbox"
+              name="tandc"
+              type="checkbox"
+              defaultChecked={this.props.tandc}
+              onChange={this.update}
+              tabIndex="21"
             />
           </FieldWrapper>
         </form>
@@ -126,169 +348,3 @@ class Billing extends Component {
 }
 
 export default Billing
-
-
-// <div className="form--initial-details">
-//   <Field title="First Name" name="firstname">
-//     <input
-//       type='text'
-//       name='firstname'
-//       placeholder='jane'
-//       defaultValue={this.state.firstname}
-//       onBlur={this.update}
-//       />
-//   </Field>
-//   <Field
-//     title="Last Name"
-//     name="lastname"
-//     type="text"
-//     placeholder="Doe"
-//     value={this.state.lastname}
-//     onBlur={this.update}
-//     />
-//   <Field
-//     title="Email"
-//     name="email"
-//     type="email"
-//     placeholder="jane.doe@rashaswais.com"
-//     value={this.state.email}
-//     onBlur={this.update}
-//     />
-//   <Field
-//     title="Phone"
-//     name="phone"
-//     type="tel"
-//     placeholder="01234567890"
-//     value={this.state.phone}
-//     onBlur={this.update}
-//     />
-//   <Field
-//     title="When is best to contact you?"
-//     name="contactTime"
-//     type="text"
-//     placeholder="Between 4pm and 4:02pm on a Thursday"
-//     value={this.state.contactTime}
-//     onBlur={this.update}
-//     />
-//   </div>
-//   <div className="form--billing">
-//     <Field title="Address Line 1" name="billingAddressLine1">
-//       <input
-//         type='text'
-//         name='billingAddressLine1'
-//         placeholder='123 Street Lane'
-//         defaultValue={this.state.billingAddressLine1}
-//         onBlur={this.update}
-//         />
-//     </Field>
-//     <Field
-//       title="Address Line 2"
-//       name="billingAddressLine2"
-//       type="text"
-//       placeholder=""
-//       value={this.state.billingAddressLine2}
-//       onBlur={this.update}
-//       />
-//     <Field
-//       title="Address Line 3"
-//       name="billingAddressLine3"
-//       type="text"
-//       placeholder=""
-//       value={this.state.billingAddressLine3}
-//       onBlur={this.update}
-//       />
-//     <Field
-//       title="City"
-//       name="billingCity"
-//       type="text"
-//       placeholder="Townington"
-//       value={this.state.billingCity}
-//       onBlur={this.update}
-//       />
-//     <Field
-//       title="Postcode"
-//       name="billingPostcode"
-//       type="text"
-//       placeholder="TO1 3TA"
-//       value={this.state.billingPostcode}
-//       onBlur={this.update}
-//       />
-//   </div>
-//   <div className="form--same-address">
-//     <Field title="Use same address as billing?" name="shippingIsBilling">
-//       <input
-//         type='checkbox'
-//         name='shippingIsBilling'
-//         defaultChecked={this.state.shippingIsBilling}
-//         onBlur={this.update}
-//         />
-//     </Field>
-//   </div>
-//   <div className="form--shipping">
-//     <Field
-//       title="Name"
-//       name="shippingName"
-//       type="text"
-//       placeholder="John Doe"
-//       value={this.state.shippingName}
-//       onBlur={this.update}
-//       />
-//     <Field
-//       title="Address Line 1"
-//       name="shippingAddressLine1"
-//       type="text"
-//       placeholder='124 Street Lane'
-//       value={this.state.shippingAddressLine1}
-//       onBlur={this.update}
-//       >
-//       <input
-//         type='text'
-//         name='shippingAddressLine1'
-//         placeholder='125 Street Lane'
-//         defaultValue={(this.state.shippingIsBilling) ? this.state.billingAddressLine1 : this.state.shippingAddressLine1}
-//         onBlur={this.update}
-//         />
-//     </Field>
-//
-//     <Field
-//       title="Address Line 2"
-//       name="shippingAddressLine2"
-//       type="text"
-//       placeholder=""
-//       value={this.state.shippingAddressLine2}
-//       onBlur={this.update}
-//       />
-//     <Field
-//       title="Address Line 3"
-//       name="shippingAddressLine3"
-//       type="text"
-//       placeholder=""
-//       value={this.state.shippingAddressLine3}
-//       onBlur={this.update}
-//       />
-//     <Field
-//       title="City"
-//       name="shippingCity"
-//       type="text"
-//       placeholder="Townington"
-//       value={this.state.shippingCity}
-//       onBlur={this.update}
-//       />
-//     <Field
-//       title="Postcode"
-//       name="shippingPostcode"
-//       type="text"
-//       placeholder="TO1 3TA"
-//       value={this.state.shippingPostcode}
-//       onBlur={this.update}
-//       />
-//   </div>
-//   <div className="form--tandc">
-//     <Field
-//       title="Check to confirm you have read our terms and conditions"
-//       name="tandc"
-//       type="checkbox"
-//       value={this.state.tandc}
-//       onBlur={this.update}
-//     />
-//   </div>
