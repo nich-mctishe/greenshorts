@@ -1,4 +1,5 @@
 const Joi = require('joi')
+const format = require('../helpers/format')
 
 const postcode = Joi.string()
   .regex(/([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/, { name: 'postcode'})
@@ -7,6 +8,7 @@ const postcode = Joi.string()
 
 const schema = Joi.object().keys({
   token: Joi.string().required().error(() => 'There is an issue with your card'), // this may need to be more specific
+  number: Joi.string(),
   firstname: Joi.string().alphanum().required().error(() => 'Please enter your firstname'),
   lastname: Joi.string().alphanum().required().error(() => 'Please enter your lastname'),
   email: Joi.string().email().required().error(() => 'Please enter your email address so we can confirm your order'),
@@ -16,52 +18,32 @@ const schema = Joi.object().keys({
     .error(() => 'Please enter a number we can contact you on'),
   billingAddressLine1: Joi.string().required().error(() => 'Please enter a billing address'),
   billingAddressLine2: Joi.string().error(() => 'billing address should be legeable'),
-  billingAddressLine3: Joi.string() .error(() => 'billing address should be legeable'),
-  billingCity: Joi.string().alphanum().required().error(() => 'Please enter a billing city'),
+  billingAddressLine3: Joi.string().error(() => 'billing address should be legeable'),
+  billingCity: Joi.string().required().error(() => 'Please enter a billing city'),
+  billingCounty: Joi.string().error(() => 'Please amend your billing county'),
+  billingCountry: Joi.string().required().error(() => 'Please enter a billing country'),
   billingPostcode: postcode,
   shippingName: Joi.string().error(() => 'Name should be a legable'),
   shippingAddressLine1: Joi.string().required().error(() => 'Please enter a shipping address'),
   shippingAddressLine2: Joi.string().error(() => 'shipping address should be legeable'),
   shippingAddressLine3: Joi.string().error(() => 'shipping address should be legeable'),
-  shippingCity: Joi.string().alphanum().required().error(() => 'Please enter a shipping city'),
+  shippingCity: Joi.string().required().error(() => 'Please enter a shipping city'),
+  shippingCounty: Joi.string().error(() => 'Please amend your shipping county'),
+  shippingCountry: Joi.string().required().error(() => 'Please enter a billing country'),
   shippingPostcode: postcode,
   tandc: Joi.boolean().truthy('yes').error(() => 'please confirm you have read the terms and conditions'),
+  instructions: Joi.string(),
   contactTime: Joi.string().error(() => 'Contact time should be a legable'),
-  items: Joi.array().min(1),
-  value: Joi.number().required()
+  items: Joi.array().min(1).required(),
+  subtotal: Joi.number().required(),
+  total: Joi.number().required(),
+  exceptions: Joi.string()
 })
-
-const format = (data, extra) => {
-  return {
-    token: data.token,
-    firstname: data.firstname,
-    lastname: data.lastname,
-    email: data.email,
-    phone: data.phone,
-    billingAddressLine1: data.billingAddressLine1,
-    billingAddressLine2: data.billingAddressLine2,
-    billingAddressLine3: data.billingAddressLine3,
-    billingCity: data.billingCity,
-    billingPostcode: data.billingPostcode,
-    shippingName: data.shippingName || `${data.firstname} ${data.lastname}`,
-    shippingAddressLine1: data.shippingAddressLine1,
-    shippingAddressLine2: data.shippingAddressLine2,
-    shippingAddressLine3: data.shippingAddressLine3,
-    shippingCity: data.shippingCity,
-    shippingPostcode: data.shippingPostcode,
-    tandc: data.tandc,
-    contactTime: data.contactTime,
-    items: data.items, // this may need to be formatted for insertion
-    paid: extra && extra.paid,
-    value: data.value
-  }
-}
 
 class Order {
 
   constructor (req) {
-    this.details = req.body
-    this.formatted = {}
+    this.details = (typeof req.body === 'string') ? JSON.parse(req.body) : req.body
 
     this.valid = false
 
@@ -70,31 +52,33 @@ class Order {
     this.cmsResult = null
 
     this.messages = null
+
+    this.process = this.process.bind(this)
+
+    this.format = this.format.bind(this)
   }
 
-  process () {
+  process (callback) {
     // get info and parse + validate
     this.validation = Joi.validate(this.details, schema)
     this.valid = (this.validation.error === null)
     if (!this.valid) {
       this.messages = this.validation.error.details
-    } else {
-      // if success format
-      this.formatted = format(this.details)
     }
+
+    return callback(this.messages)
   }
-
-  result () {
-
-    return {
-      error: null,
-      message: {}
-    }
-  }
-
-  // post data to headless CMS <-- may need to make aysnc
-  post () {
-    // make api post request to CMS here
+  /**
+   * Format
+   * formats depending on whats required
+   * @params {String} type = payment|api etc
+   * @params {String} provider = stripe|strapi etc
+   * @params {Object} extra = addional fields to add into format
+   *
+   * @returns {Object}
+   */
+  format (type, provider, extra) {
+    return format(this.details, extra)[type][provider]()
   }
 }
 
