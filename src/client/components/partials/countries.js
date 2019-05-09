@@ -8,18 +8,24 @@ export default class Countries extends Component {
    */
 
   static propTypes = {
-    onClick: PropTypes.func
+    onChange: PropTypes.func,
+    value: PropTypes.string,
+    name: PropTypes.string,
+    tabIndex: PropTypes.number
   }
 
   static defaultProps = {
-    onClick: _ => {
+    onChange: _ => {
       console.error('no click through specified for countries dropdown');
     },
+    value: 'United Kingdom',
+    name: 'countries',
+    tabIndex: 1
   }
 
   render () {
     return (
-      <select onClick={this.onClick}>
+      <select tabIndex={this.props.tabIndex} name={this.props.name} onChange={this.props.onChange} value={this.props.value}>
         <option value="Afghanistan">Afghanistan</option>
         <option value="Albania">Albania</option>
         <option value="Algeria">Algeria</option>

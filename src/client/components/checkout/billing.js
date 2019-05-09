@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import FieldWrapper from '../partials/field-wrapper'
 
+import Countries from '../partials/countries'
+
 import { upperFirst } from 'lodash'
 
 import validate from '../../lib/validation'
@@ -235,14 +237,12 @@ class Billing extends Component {
             />
           </FieldWrapper>
           <FieldWrapper name='billingCountry' title='Country' messages={this.state.billingCountry}>
-            <input
+            <Countries
               className="input"
               name="billingCountry"
-              type="text"
-              placeholder="United Kingdom"
-              defaultValue={this.props.billingCountry}
-              onBlur={this.update}
+              onChange={this.update}
               tabIndex="12"
+              value={this.props.billingCountry}
             />
           </FieldWrapper>
           <h3>Your shipping info</h3>
@@ -334,14 +334,12 @@ class Billing extends Component {
             />
           </FieldWrapper>
           <FieldWrapper name='shippingCountry' title='Country' messages={this.state.shippingCountry}>
-            <input
+            <Countries
               className="input"
               name="shippingCountry"
-              type="text"
-              placeholder="United Kingdom"
-              defaultValue={this.props.shippingCountry}
-              onBlur={this.update}
+              onChange={this.update}
               tabIndex="21"
+              value={this.props.shippingCountry}
             />
           </FieldWrapper>
           <h2>Last bits</h2>

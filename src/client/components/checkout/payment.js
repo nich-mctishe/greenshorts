@@ -240,12 +240,12 @@ class Payment extends Component {
 
     return (
       <div className="checkout">
-        <p>subtotal : {this.props.value}</p>
+        <p>subtotal: £{this.props.value.toFixed(2)}</p>
         {this.state.shippingOption && (
-          <p>delivery: {this.state.shippingOption.service} = {Number(this.state.shippingOption.cost).toFixed(2)}</p>
+          <p>delivery: {this.state.shippingOption.service} £{Number(this.state.shippingOption.cost).toFixed(2)}</p>
         )}
-        <p>total:{this.state.total}</p>
-        <p>PLease enter your card details to complete the purchase</p>
+        <p>total: £{this.state.total.toFixed(2)}</p>
+        <p>Please enter your card details to complete the purchase</p>
         {this.state.messages.map(message => (
             <p key={message.context.key}>{message.message}</p>
         ))}
