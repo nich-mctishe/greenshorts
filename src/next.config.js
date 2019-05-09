@@ -10,6 +10,7 @@ module.exports = withSass(withCss({
     return config
   },
   publicRuntimeConfig: {
-    API_URL: process.env.API_BASE_URL
+    API_URL: process.env.API_BASE_URL,
+    STRIPE_KEY: process.env.STRIPE_KEY
   }
 }))

@@ -36,9 +36,12 @@ export default class Checkout extends Component {
     return payload
   }
 
-  componentDidMount () {
+  async componentDidMount () {
+    const { publicRuntimeConfig } = await getConfig();
+    const { STRIPE_KEY } = publicRuntimeConfig
+
     this.setState({
-      stripe: window.Stripe("pk_test_WcJc0Es1FGxhOEBJ4OjFbC3V")
+      stripe: window.Stripe(STRIPE_KEY)
     });
 
     if (!this.props.deliveryOptions.retrievedFromLocalStorage) {

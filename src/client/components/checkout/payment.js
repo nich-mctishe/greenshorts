@@ -21,7 +21,7 @@ const getShippingOption = (country, shippingOptions) => {
 
   if (country) {
     shippingOptions.forEach(option => {
-      let countries = option.countries.split(' ,')
+      let countries = option.countries.split(', ')
       countries.forEach(c => {
         if (c === country) {
           shippingOption = option
@@ -179,36 +179,20 @@ class Payment extends Component {
 
   componentWillMount () {
     const { value, deliveryOptions, shippingCountry } = this.props
-    console.log('mounting');
     const shippingOption = getShippingOption(shippingCountry, deliveryOptions)
     const total = assertTotal(value, shippingOption)
 
     this.setState({ total, shippingOption })
   }
 
-  componentWillUpdate () {
-    console.log('updating');
+  componentDidUpdate () {
     const { value, deliveryOptions, shippingCountry } = this.props
-    //console.log('value', value);
-    //console.log('deliveryOptions', deliveryOptions);
-    console.log('shippingCountry', shippingCountry);
-
-    console.log('hasAllAttributes', this.hasAllAttributes());
-
     const shippingOption = getShippingOption(shippingCountry, deliveryOptions)
     const total = assertTotal(value, shippingOption)
-
-
-    //console.log('total', total);
-
     let update = {}
     if (total !== this.state.total) {
       update.total = total
     }
-
-    //console.log('shippingOption', shippingOption);
-    //console.log('state shippingOption', this.state.shippingOption);
-    //console.log(!isEqual(shippingOption, this.state.shippingOption));
 
     if (!isEqual(shippingOption, this.state.shippingOption)) {
       update.shippingOption = shippingOption
@@ -227,7 +211,7 @@ class Payment extends Component {
       const { token, error } = await stripe.createToken({ name: `${firstname} ${lastname}` })
 
       if (!error) {
-
+        console.log(this.formatBody());
 
         const response = await fetch('/charge', {
           method: 'POST',
