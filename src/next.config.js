@@ -8,5 +8,8 @@ module.exports = withSass(withCss({
   webpack: function (config, { isServer }) {
 
     return config
+  },
+  publicRuntimeConfig: {
+    API_URL: process.env.API_BASE_URL
   }
 }))
