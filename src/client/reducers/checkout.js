@@ -11,6 +11,7 @@ import {
   SET_BILLING_LINE_3,
   SET_BILLING_CITY,
   SET_BILLING_COUNTY,
+  SET_BILLING_COUNTRY,
   SET_BILLING_POSTCODE,
   SET_SAME_ADDRESS,
   SET_SHIPPING_NAME,
@@ -20,10 +21,12 @@ import {
   SET_SHIPPING_CITY,
   SET_SHIPPING_COUNTY,
   SET_SHIPPING_POSTCODE,
+  SET_SHIPPING_COUNTRY,
   SET_READ_TANDC,
   IS_PAID,
   IS_SAVED_TO_DB,
-  IS_EMAIL_SENT
+  IS_EMAIL_SENT,
+  SET_INSTRUCTIONS
 } from '../actions/checkout'
 
 // need to consider uploading this information to the db also for proseperity and to ensure session integrity
@@ -42,6 +45,7 @@ const INITIAL_STATE = {
   billingCity: '',
   billingCounty: '',
   billingPostcode: '',
+  billingCountry: '',
   shippingName: '',
   shippingAddressLine1: '',
   shippingAddressLine2: '',
@@ -49,7 +53,9 @@ const INITIAL_STATE = {
   shippingCity: '',
   shippingCounty: '',
   shippingPostcode: '',
+  shippingCountry: '',
   contactTime: '',
+  instructions: '',
   shippingIsBilling: true,
   paid: false,
   savedToDb: false,
@@ -111,6 +117,8 @@ export default function checkoutReducer (state, action) {
       return handleDualUpdate(state, 'billingCounty', action.item)
     case SET_BILLING_POSTCODE:
       return handleDualUpdate(state, 'billingPostcode', action.item)
+    case SET_BILLING_COUNTRY:
+      return handleDualUpdate(state, 'billingCountry', action.item)
     case SET_SHIPPING_NAME:
       return updateState(state, {
         shippingName: action.item
@@ -138,6 +146,10 @@ export default function checkoutReducer (state, action) {
     case SET_SHIPPING_POSTCODE:
       return updateState(state, {
         shippingPostcode: action.item
+      })
+    case SET_SHIPPING_COUNTRY:
+      return updateState(state, {
+        shippingCountry: action.item
       })
     case SET_SAME_ADDRESS:
       return updateState(state, {

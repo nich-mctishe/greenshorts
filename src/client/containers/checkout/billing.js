@@ -10,6 +10,7 @@ import {
   setBillingLine3,
   setBillingCity,
   setBillingCounty,
+  setBillingCountry,
   setBillingPostcode,
   setSameAddress,
   setShippingName,
@@ -19,6 +20,7 @@ import {
   setShippingCity,
   setShippingCounty,
   setShippingPostcode,
+  setShippingCountry,
   setReadTandc,
   setInstructions
 } from '../../actions/checkout'
@@ -32,16 +34,18 @@ const mapStateToProps = (state, ownProps) => ({
   billingAddressLine1: state.checkout.billingAddressLine1,
   billingAddressLine2: state.checkout.billingAddressLine2,
   billingAddressLine3: state.checkout.billingAddressLine3,
-  billingCity: state.checkout.city,
+  billingCity: state.checkout.billingCity,
   billingCounty: state.checkout.billingCounty,
-  billingPostcode: state.checkout.postcode,
+  billingPostcode: state.checkout.billingPostcode,
+  billingCountry: state.checkout.billingCountry,
   shippingName: state.checkout.name,
   shippingAddressLine1: state.checkout.shippingAddressLine1,
   shippingAddressLine2: state.checkout.shippingAddressLine2,
   shippingAddressLine3: state.checkout.shippingAddressLine3,
-  shippingCity: state.checkout.city,
+  shippingCity: state.checkout.shippingCity,
   shippingCounty: state.checkout.shippingCounty,
-  shippingPostcode: state.checkout.postcode,
+  shippingPostcode: state.checkout.shippingPostcode,
+  shippingCountry: state.checkout.shippingCountry,
   shippingIsBilling: state.checkout.shippingIsBilling,
   tandc: state.checkout.tandc,
   contactTime: state.checkout.contactTime,
@@ -82,6 +86,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   setBillingPostcode: item => {
     dispatch(setBillingPostcode(item))
   },
+  setBillingCountry: item => {
+    dispatch(setBillingCountry(item))
+  },
   setShippingIsBilling: item => {
     dispatch(setSameAddress(item))
   },
@@ -102,6 +109,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   setShippingCounty: item => {
     dispatch(setShippingCounty(item))
+  },
+  setShippingCountry: item => {
+    dispatch(setShippingCountry(item))
   },
   setShippingPostcode: item => {
     dispatch(setShippingPostcode(item))

@@ -12,6 +12,7 @@ export const SET_BILLING_LINE_3 = 'SET_BILLING_LINE_3'
 export const SET_BILLING_CITY = 'SET_BILLING_CITY'
 export const SET_BILLING_COUNTY = 'SET_BILLING_COUNTY'
 export const SET_BILLING_POSTCODE = 'SET_BILLING_POSTCODE'
+export const SET_BILLING_COUNTRY = 'SET_BILLING_COUNTRY'
 
 export const SET_SAME_ADDRESS = 'SET_SAME_ADDRESS'
 
@@ -22,6 +23,7 @@ export const SET_SHIPPING_LINE_3 = 'SET_SHIPPING_LINE_3'
 export const SET_SHIPPING_CITY = 'SET_SHIPPING_CITY'
 export const SET_SHIPPING_COUNTY = 'SET_SHIPPING_COUNTY'
 export const SET_SHIPPING_POSTCODE = 'SET_BILLING_POSTCODE'
+export const SET_SHIPPING_COUNTRY = 'SET_SHIPPING_COUNTRY'
 
 export const SET_READ_TANDC = 'SET_READ_TANDC'
 
@@ -83,6 +85,10 @@ export function setBillingPostcode (item) {
   return { type: SET_BILLING_POSTCODE, item }
 }
 
+export function setBillingCountry (item) {
+  return { type: SET_BILLING_COUNTRY, item }
+}
+
 export function setSameAddress (item) {
   return { type: SET_SAME_ADDRESS, item }
 }
@@ -109,6 +115,10 @@ export function setShippingCity (item) {
 
 export function setShippingCounty (item) {
   return { type: SET_SHIPPING_COUNTY, item }
+}
+
+export function setShippingCountry (item) {
+  return { type: SET_SHIPPING_COUNTRY, item }
 }
 
 export function setShippingPostcode (item) {

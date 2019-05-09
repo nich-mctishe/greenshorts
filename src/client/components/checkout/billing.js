@@ -17,6 +17,7 @@ const fields = {
   billingCity: 'required',
   billingCounty: '',
   billingPostcode: 'required',
+  billingCountry: 'required',
   shippingName: 'required',
   shippingAddressLine1: 'required',
   shippingAddressLine2: '',
@@ -24,6 +25,7 @@ const fields = {
   shippingCity: 'required',
   shippingCounty: '',
   shippingPostcode: 'required',
+  shippingCountry: 'required',
   shippingIsBilling: 'bool',
   tandc: 'required|bool',
   instructions: '',
@@ -232,6 +234,17 @@ class Billing extends Component {
               tabIndex="11"
             />
           </FieldWrapper>
+          <FieldWrapper name='billingCountry' title='Country' messages={this.state.billingCountry}>
+            <input
+              className="input"
+              name="billingCountry"
+              type="text"
+              placeholder="United Kingdom"
+              defaultValue={this.props.billingCountry}
+              onBlur={this.update}
+              tabIndex="12"
+            />
+          </FieldWrapper>
           <h3>Your shipping info</h3>
           <FieldWrapper name='shippingIsBilling' title='Use Same Shipping address as Billing' messages={this.state.shippingIsBilling}>
             <input
@@ -240,7 +253,7 @@ class Billing extends Component {
               type="checkbox"
               defaultChecked={this.props.shippingIsBilling}
               onChange={this.update}
-              tabIndex="12"
+              tabIndex="13"
             />
           </FieldWrapper>
           <FieldWrapper name='shippingName' title='Name' messages={this.state.shippingName}>
@@ -251,7 +264,7 @@ class Billing extends Component {
               placeholder="Joe Bloggs"
               defaultValue={this.props.shippingName}
               onBlur={this.update}
-              tabIndex="13"
+              tabIndex="14"
             />
           </FieldWrapper>
           <FieldWrapper name='shippingAddressLine1' title='Address Line 1' messages={this.state.shippingAddressLine1}>
@@ -262,7 +275,7 @@ class Billing extends Component {
               placeholder="my house"
               defaultValue={this.props.shippingAddressLine1}
               onBlur={this.update}
-              tabIndex="14"
+              tabIndex="15"
             />
           </FieldWrapper>
           <FieldWrapper name='shippingAddressLine2' title='Address Line 2' messages={this.state.shippingAddressLine2}>
@@ -273,7 +286,7 @@ class Billing extends Component {
               placeholder="123 street lane"
               defaultValue={this.props.shippingAddressLine2}
               onBlur={this.update}
-              tabIndex="15"
+              tabIndex="16"
             />
           </FieldWrapper>
           <FieldWrapper name='shippingAddressLine3' title='Address Line 3' messages={this.state.shippingAddressLine3}>
@@ -284,7 +297,7 @@ class Billing extends Component {
               placeholder=""
               defaultValue={this.props.shippingAddressLine3}
               onBlur={this.update}
-              tabIndex="16"
+              tabIndex="17"
             />
           </FieldWrapper>
           <FieldWrapper name='shippingCity' title='City' messages={this.state.shippingCity}>
@@ -295,7 +308,7 @@ class Billing extends Component {
               placeholder="Townsbury"
               defaultValue={this.props.shippingCity}
               onBlur={this.update}
-              tabIndex="17"
+              tabIndex="18"
             />
           </FieldWrapper>
           <FieldWrapper name='shippingCounty' title='County' messages={this.state.shippingCounty}>
@@ -306,7 +319,7 @@ class Billing extends Component {
               placeholder="Countyshire"
               defaultValue={this.props.shippingCounty}
               onBlur={this.update}
-              tabIndex="18"
+              tabIndex="19"
             />
           </FieldWrapper>
           <FieldWrapper name='shippingPostcode' title='Postcode' messages={this.state.shippingPostcode}>
@@ -317,7 +330,18 @@ class Billing extends Component {
               placeholder="TO5 1EG"
               defaultValue={this.props.shippingPostcode}
               onBlur={this.update}
-              tabIndex="19"
+              tabIndex="20"
+            />
+          </FieldWrapper>
+          <FieldWrapper name='shippingCountry' title='Country' messages={this.state.shippingCountry}>
+            <input
+              className="input"
+              name="shippingCountry"
+              type="text"
+              placeholder="United Kingdom"
+              defaultValue={this.props.shippingCountry}
+              onBlur={this.update}
+              tabIndex="21"
             />
           </FieldWrapper>
           <h2>Last bits</h2>
@@ -328,7 +352,7 @@ class Billing extends Component {
               placeholder=""
               defaultValue={this.props.instructions}
               onBlur={this.update}
-              tabIndex="20"
+              tabIndex="22"
             />
           </FieldWrapper>
           <FieldWrapper name='tandc' title={`have you read and aggreed to our t&c's?`} messages={this.state.tandc}>
@@ -338,7 +362,7 @@ class Billing extends Component {
               type="checkbox"
               defaultChecked={this.props.tandc}
               onChange={this.update}
-              tabIndex="21"
+              tabIndex="23"
             />
           </FieldWrapper>
         </form>
