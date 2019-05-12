@@ -91,10 +91,9 @@ class Billing extends Component {
     let stateToUpdate = {
       [event.target.name]: null
     }
-
     if (!!this.props[`set${upperFirst(event.target.name)}`]) {
       if (valid.success) {
-        this.setState(stateToUpdate)
+        this.setState(stateToUpdate) // resets it back to null if it has been fixed
 
         return this.props[`set${upperFirst(event.target.name)}`](event.target.type !== 'checkbox' ? event.target.value : event.target.checked)
       } else {
@@ -111,7 +110,6 @@ class Billing extends Component {
 
     return (
       <section>
-
         <form>
           <h3>You</h3>
           <FieldWrapper name='firstname' title='Firstname' messages={this.state.firstname}>

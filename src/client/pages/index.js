@@ -32,7 +32,7 @@ export default class Index extends Component {
 
   static async getInitialProps () {
 
-    const { publicRuntimeConfig } = await getConfig();
+    const { publicRuntimeConfig } = await getConfig()
     const { API_URL } = publicRuntimeConfig
 
     let payload = {}

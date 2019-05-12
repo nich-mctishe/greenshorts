@@ -103,6 +103,8 @@ class Payment extends Component {
   }
 
   formatBody = _ => {
+    console.log(this.props);
+
     let body = {
       token: token.id,
       firstname: this.props.firstname,
@@ -169,7 +171,7 @@ class Payment extends Component {
       this.props.shippingPostcode &&
       this.props.tandc &&
       this.props.items.length &&
-      this.ptops.value
+      this.props.value
     ) {
       return true
     }
@@ -206,8 +208,11 @@ class Payment extends Component {
   submit = async (ev) => {
     const { firstname, lastname, stripe } = this.props
 
+    console.log('hasAllAttributes', this.hasAllAttributes())
+    console.log('props', this.props)
+
     // will need to hook up to redux
-    if (firstname.length && lastname.length) {
+    if (this.hasAllAttributes()) {
       const { token, error } = await stripe.createToken({ name: `${firstname} ${lastname}` })
 
       if (!error) {
@@ -233,7 +238,7 @@ class Payment extends Component {
       }
     }
 
-    console.log('name not supplied')
+    console.log('not all details have been supplied')
   }
 
   render () {

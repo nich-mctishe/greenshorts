@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 
-import {Elements, StripeProvider} from 'react-stripe-elements';
+import { Elements, StripeProvider } from 'react-stripe-elements';
 
 import Billing from '../containers/checkout/billing'
 import Cart from '../containers/checkout/cart'
@@ -24,7 +24,7 @@ export default class Checkout extends Component {
   }
 
   static async getInitialProps () {
-    const { publicRuntimeConfig } = await getConfig();
+    const { publicRuntimeConfig } = await getConfig()
     const { API_URL } = publicRuntimeConfig
     const deliveryOptions = getFromStore('deliveryoptions') || await axios.get(`${API_URL}/deliveryoptions`)
     let payload = {}
@@ -37,7 +37,7 @@ export default class Checkout extends Component {
   }
 
   async componentDidMount () {
-    const { publicRuntimeConfig } = await getConfig();
+    const { publicRuntimeConfig } = await getConfig()
     const { STRIPE_KEY } = publicRuntimeConfig
 
     this.setState({

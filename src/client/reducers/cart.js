@@ -15,10 +15,13 @@ const INITIAL_STATE = {
 // may need to think about removing faulty values
 const itemTemplate = (data) => {
   return {
+    _id: data._id || null,
     sku: data.sku || null,
     name: data.name || null,
+    size: data.size || null,
     quantity: data.quantity || 1,
-    price: data.price || 0
+    price: data.price || 0,
+    'total-cost': data.price * (data.quantity || 1) || 0
   }
 }
 

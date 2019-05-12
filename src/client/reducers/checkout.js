@@ -105,14 +105,14 @@ export default function checkoutReducer (state, action) {
       return updateState(state, {
         contactTime: action.item
       })
+    case SET_BILLING_CITY:
+      return handleDualUpdate(state, 'billingCity', action.item)
     case SET_BILLING_LINE_1:
       return handleDualUpdate(state, 'billingAddressLine1', action.item)
     case SET_BILLING_LINE_2:
       return handleDualUpdate(state, 'billingAddressLine2', action.item)
     case SET_BILLING_LINE_3:
       return handleDualUpdate(state, 'billingAddressLine3', action.item)
-    case SET_BILLING_CITY:
-      return handleDualUpdate(state, 'billingCity', action.item)
     case SET_BILLING_COUNTY:
       return handleDualUpdate(state, 'billingCounty', action.item)
     case SET_BILLING_POSTCODE:
