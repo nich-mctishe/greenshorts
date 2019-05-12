@@ -1,8 +1,4 @@
 import { connect } from 'react-redux'
-import {
-  setFirstname,
-  setLastname
-} from '../../actions/checkout'
 import Payment from '../../components/checkout/payment'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -16,15 +12,15 @@ const mapStateToProps = (state, ownProps) => ({
   billingCity: state.checkout.billingCity,
   billingCounty: state.checkout.billingCounty,
   billingCountry: state.checkout.billingCountry,
-  billingPostcode: state.checkout.postcode,
-  shippingName: state.checkout.name,
+  billingPostcode: state.checkout.billingPostcode,
+  shippingName: state.checkout.shippingName,
   shippingAddressLine1: state.checkout.shippingAddressLine1,
   shippingAddressLine2: state.checkout.shippingAddressLine2,
   shippingAddressLine3: state.checkout.shippingAddressLine3,
   shippingCity: state.checkout.shippingCity,
   shippingCounty: state.checkout.shippingCounty,
   shippingCountry: state.checkout.shippingCountry,
-  shippingPostcode: state.checkout.postcode,
+  shippingPostcode: state.checkout.shippingPostcode,
   tandc: state.checkout.tandc,
   contactTime: state.checkout.contactTime,
   instructions: state.checkout.instructions,
@@ -33,12 +29,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  setFirstname: item => {
-    dispatch(setFirstname(item))
-  },
-  setLastname: item => {
-    dispatch(setLastname(item))
-  }
+
 })
 
 const PaymentContainer = connect(

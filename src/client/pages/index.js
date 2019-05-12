@@ -87,7 +87,8 @@ export default class Index extends Component {
             <GridItem key={product._id}
               image={product.image}
               name={product.Name}
-              sku={product._id}
+              sku={product.sku}
+              _id={product._id}
               price={product.price.toString()}
               />
           ))}

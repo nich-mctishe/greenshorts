@@ -99,10 +99,10 @@ class Payment extends Component {
     complete: false,
     total: this.props.value,
     shippingOption: null,
-    messages: []
+    message: null
   }
 
-  formatBody = _ => {
+  formatBody = token => {
     console.log(this.props);
 
     let body = {
@@ -216,25 +216,27 @@ class Payment extends Component {
       const { token, error } = await stripe.createToken({ name: `${firstname} ${lastname}` })
 
       if (!error) {
-        console.log(this.formatBody());
+        console.log(this.formatBody(token));
 
         const response = await fetch('/charge', {
           method: 'POST',
           headers: {
             'Content-Type': 'text/plain'
           },
-          body: this.formatBody()
+          body: this.formatBody(token)
         });
 
         if (response.ok) {
           console.log("Purchase Complete!") // amend to display better splash page
+          // could call a props set compeleted function that would spur the move onto a splash page
+          this.setState({ message: null })
         } else {
           const error = await response.json()
 
-          return this.setState({ messages: error.messages || "unknown error occurred, please contact admin" })
+          return this.setState({ message: error.messages || "unknown error occurred, please contact admin" })
         }
       } else {
-        return this.setState({ messages: error.message || "unknown error occurred, please contact admin" })
+        return this.setState({ message: error.message || "unknown error occurred, please contact admin" })
       }
     }
 
@@ -251,9 +253,9 @@ class Payment extends Component {
         )}
         <p>total: £{this.state.total.toFixed(2)}</p>
         <p>Please enter your card details to complete the purchase</p>
-        {this.state.messages.map(message => (
-            <p key={message.context.key}>{message.message}</p>
-        ))}
+        {this.state.message && (
+          <p>{this.state.message}</p>
+        )}
         <CardElement />
         <button onClick={this.submit}>Send</button>
       </div>

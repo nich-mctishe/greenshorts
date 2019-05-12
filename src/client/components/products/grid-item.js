@@ -4,12 +4,15 @@ import Link from 'next/link'
 import { findIndex } from 'lodash'
 
 // this could go in lib as a helper.
-const formatItem = (props, quantity) => {
+const formatItem = (props, state, quantity) => {
   return {
     name: props.name,
     sku: props.sku,
+    _id: props._id,
     quantity: quantity,
-    price: Number(props.price)
+    size: state.size,
+    price: Number(props.price),
+    'total-cost': Number(props.price) * Number(quantity)
   }
 }
 
@@ -18,6 +21,7 @@ export default class GridItem extends Component {
   static propTypes = {
     image: PropTypes.string,
     name: PropTypes.string,
+    _id: PropTypes.string,
     sku: PropTypes.string,
     price: PropTypes.string
   }
@@ -26,13 +30,19 @@ export default class GridItem extends Component {
     image: './static/images/product-1.jpg',
     name: 'Test Product',
     sku: '12345',
+    _id: 'asdkjlksad',
     price: '20.99'
+  }
+
+  // update size later
+  state = {
+    size: 'M'
   }
 
   onClick = () => {
     if ( findIndex(this.props.items, {sku: this.props.sku}) === -1 ) {
       console.log('fired');
-      this.props.onClick(formatItem(this.props, 1))
+      this.props.onClick(formatItem(this.props, this.state, 1))
     }
   }
 
