@@ -6,9 +6,11 @@ import { findIndex } from 'lodash'
 // this could go in lib as a helper.
 const formatItem = (props, state, quantity) => {
   return {
-    name: props.name,
-    sku: props.sku,
-    _id: props._id,
+    product: {
+      _id: props._id || null,
+      sku: props.sku || null,
+      name: props.name || null
+    },
     quantity: quantity,
     size: state.size,
     price: Number(props.price),

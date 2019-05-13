@@ -39,13 +39,17 @@ module.exports = (req, res) => {
     ),
     // 5. format for strapi
     (data, callback) => {
-      callback(null, order.format('apis', API_NETWORK, {
+      console.log('data', data);
+      console.log('callback', callback);
+
+      console.log(api[API_NETWORK]);
+
+      // 6. create new order and items (may need to work this out)
+      api[API_NETWORK](order.format('apis', API_NETWORK, {
         token: data.token,
         paid: true
-      }))
-    },
-    // 6. create new order and items (may need to work this out)
-    api[API_NETWORK]
+      }), callback)
+    }
   ], (err, final) => {
     if (err) {
       res.status(500)

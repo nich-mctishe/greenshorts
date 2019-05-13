@@ -30,32 +30,45 @@
  //   value: data.value
  // }
 
+ const formatAddresses = data => {
+   let addresses = {
+     billingAddress: `${data.firstname} ${data.lastname}\n${data.billingAddressLine1}\n`,
+     shippingAddress: `${data.shippingName || data.firstname + ' ' + data.lastname}\n${data.shippingAddressLine1}\n`
+   }
+   ;['billing', 'shipping'].forEach(address => {
+     if (data[`${address}AddressLine2`]) {
+       addresses[address + 'Address'] += `${data[address + 'AddressLine2']}\n`
+     }
+     if (data[`${address}AddressLine3`]) {
+       addresses[address + 'Address'] += `${data[address + 'AddressLine3']}\n`
+     }
+
+     addresses[address + 'Address'] += `${data[address + 'City']}\n`
+
+     if (data[`${address}County`]) {
+       addresses[address + 'Address'] += `${data[address + 'County']}\n`
+     }
+
+     addresses[address + 'Address'] += `${data[address + 'Postcode']}`
+   })
+
+   return addresses
+ }
+
 module.exports = (data, extra) => {
+  let addresses = formatAddresses(data)
 
   return {
     payment: {
       stripe: () => {
         return {
-          amount: data.total,
+          amount: Math.round(Number(data.total).toFixed(2) * 100),
+          source: data.token,
           currency: 'gbp',
           description: `charge for ${data.firstname} ${data.lastname} at approx. ${Date.now()}`,
-          billing_details: {
-            address: {
-              city: data.billingCity,
-              country: data.billingCountry,
-              line1: data.billingAddressLine1,
-              line2: `${data.billingAddressLine2} ${data.billingAddressLine3 || ''}`,
-              postal_code: data.billingPostcode,
-              state: data.billingCounty
-            },
-            shipping: {
-              city: data.shippingCity,
-              country: data.billingCountry,
-              line1: data.shippingAddressLine1,
-              line2: `${data.shippingAddressLine2} ${data.shippingAddressLine3 || ''}`,
-              postal_code: data.shippingPostcode,
-              state: data.shippingCounty
-            },
+          metadata: {
+            billing: addresses.billingAddress,
+            shipping: addresses.shippingAddress,
             email: data.email,
             name: `${data.firstname} ${data.lastname}`,
             phone: data.phone
@@ -65,32 +78,13 @@ module.exports = (data, extra) => {
     },
     apis: {
       strapi: () => {
-        let addresses = {
-          billingAddress: `${data.firstname} ${data.lastname}\n${data.billingAddressLine1}\n`,
-          shippingAddress: `${data.shippingName || data.firstname + ' ' + data.lastname}\n${data.shippingAddressLine1}\n`
-        }
-        ;['billing', 'shipping'].forEach(address => {
-          if (data[`${address}AddressLine2`]) {
-            addresses[address + 'Address'] += `${data[address + 'AddressLine2']}\n`
-          }
-          if (data[`${address}AddressLine3`]) {
-            addresses[address + 'Address'] += `${data[address + 'AddressLine3']}\n`
-          }
-
-          addresses[address + 'Address'] += `${data[address + 'City']}\n`
-
-          if (data[`${address}County`]) {
-            addresses[address + 'Address'] += `${data[address + 'County']}\n`
-          }
-
-          addresses[address + 'Address'] += `${data[address + 'Postcode']}`
-        })
+        let addresses = formatAddresses(data)
 
         let format = {
           firstname: data.firstname,
           lastname: data.lastname,
           subtotal: data.subtotal,
-          total: data.total,
+          total: Number(data.total).toFixed(2).toString(),
           email: data.email,
           phone: data.phone,
           'billing-address': addresses.billingAddress,

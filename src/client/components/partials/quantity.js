@@ -51,7 +51,7 @@ export default class Quantity extends Component {
   }
 
   componentWillMount () {
-    this.setState({ item:  find(this.props.items, { sku: this.props.item.sku }) })
+    this.setState({ item: find(this.props.items, { product: { _id: this.props.item.product._id } }) })
   }
 
   render () {

@@ -72,6 +72,9 @@ const makeNewOrder = async (original, order, jwt) => {
 }
 
 module.exports = async (order, callback) => {
+  console.log(order);
+  console.log(callback);
+
   // check all base vals are present
   const { API_BASE_URL, API_USERNAME, API_PASSWORD } = process.env
   if (!API_BASE_URL || !API_USERNAME || !API_PASSWORD) {

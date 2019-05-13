@@ -48,7 +48,7 @@ export default class Cart extends Component {
                     <div className="item--details">
                       <ul>
                         <li>
-                          {item.name}
+                          {item.product.name}
                         </li>
                         <li>
                           £{item.price}
