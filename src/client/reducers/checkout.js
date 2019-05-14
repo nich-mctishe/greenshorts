@@ -105,6 +105,10 @@ export default function checkoutReducer (state, action) {
       return updateState(state, {
         contactTime: action.item
       })
+    case SET_INSTRUCTIONS:
+      return updateState(state, {
+        instructions: action.item
+      })
     case SET_BILLING_CITY:
       return handleDualUpdate(state, 'billingCity', action.item)
     case SET_BILLING_LINE_1:
@@ -157,7 +161,7 @@ export default function checkoutReducer (state, action) {
       })
     case IS_PAID:
       return updateState(state, {
-        paid: action.item
+        paid: action.paid
       })
     case IS_SAVED_TO_DB:
       return updateState(state, {

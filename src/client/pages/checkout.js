@@ -1,19 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
-import Link from 'next/link'
 import dynamic from 'next/dynamic'
-
-import { Elements, StripeProvider } from 'react-stripe-elements';
-
-import Billing from '../containers/checkout/billing'
-import Cart from '../containers/checkout/cart'
-
+import Wrapper from '../components/checkout/wrapper'
 import axios from 'axios'
 import { writeToStore, getFromStore } from '../lib/storage'
 import getConfig from 'next/config'
 
-const Payment = dynamic(() => import('../containers/checkout/payment'), {
+const Payment = dynamic(() => import('../containers/checkout/wrapper'), {
   ssr: false
 })
 
@@ -54,21 +47,10 @@ export default class Checkout extends Component {
     // check cart contents and redirect to index (or products) if cart is empty
 
     return (
-      <section className="page">
-        <Link href="/"><a>back</a></Link>
-        <StripeProvider stripe={this.state.stripe}>
-          <div className="example">
-            <h1>React Stripe Elements Example</h1>
-            <Billing />
-            <aside>
-              <Cart />
-              <Elements>
-                <Payment deliveryOptions={this.props.deliveryOptions.data || []}/>
-              </Elements>
-            </aside>
-          </div>
-        </StripeProvider>
-      </section>
+      <Payment
+        stripe={this.state.stripe}
+        deliveryOptions={this.props.deliveryOptions}
+      />
     )
 
   }

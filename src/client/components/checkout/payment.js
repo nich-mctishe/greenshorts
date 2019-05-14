@@ -1,44 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { CardElement, injectStripe } from 'react-stripe-elements'
-import { find, get, isEqual } from 'lodash'
-
-const assertTotal = (subtotal, shippingOption) => {
-  let total = subtotal
-
-  if (shippingOption && get(shippingOption, 'cost')) {
-    total+= shippingOption.cost
-  }
-
-  return total
-}
-
-const getShippingOption = (country, shippingOptions) => {
-  let shippingOption = null
-  if (!shippingOptions && !get(shippingOptions, 'length')) {
-    console.error('Payment.js: no shipping options have been set in parent API')
-  }
-
-  if (country) {
-    shippingOptions.forEach(option => {
-      let countries = option.countries.split(', ')
-      countries.forEach(c => {
-        if (c === country) {
-          shippingOption = option
-        }
-      })
-    })
-
-    if (!shippingOption) {
-      shippingOption = find(shippingOptions, { default: true }) || null
-    }
-  }
-
-  return shippingOption
-}
+import { isEqual } from 'lodash'
+import { assertTotal, getShippingOption } from '../../lib/checkout'
 
 class Payment extends Component {
-
   static propTypes = {
     firstname: PropTypes.string,
     lastname: PropTypes.string,
@@ -229,7 +195,8 @@ class Payment extends Component {
         if (response.ok) {
           console.log("Purchase Complete!") // amend to display better splash page
           // could call a props set compeleted function that would spur the move onto a splash page
-          this.setState({ message: null })
+          this.props.setPaid(true)
+          return this.setState({ message: null })
         } else {
           const error = await response.json()
 
@@ -244,7 +211,6 @@ class Payment extends Component {
   }
 
   render () {
-
     return (
       <div className="checkout">
         <p>subtotal: £{this.props.value.toFixed(2)}</p>

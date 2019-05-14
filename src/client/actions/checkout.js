@@ -132,3 +132,7 @@ export function setReadTandc (item) {
 export function setInstructions (item) {
   return { type: SET_INSTRUCTIONS, item }
 }
+
+export function setPaid (paid) {
+  return { type: IS_PAID, paid }
+}

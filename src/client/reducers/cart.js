@@ -1,6 +1,4 @@
 import { each, filter, findIndex, assign, merge } from 'lodash'
-
-
 import { ADD_TO_CART } from '../actions/cart'
 import { REMOVE_FROM_CART } from '../actions/cart'
 import { UPDATE_QUANTITY } from '../actions/cart'

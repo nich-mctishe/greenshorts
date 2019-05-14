@@ -106,6 +106,10 @@ class Billing extends Component {
     console.error(`unable to update field ${event.target.name} the supporting function does not exist!`)
   }
 
+  /**
+   * TODO: account for if oyu get here adn isPaid is true and the cart hasItems in it.
+   */
+
   render () {
 
     return (
