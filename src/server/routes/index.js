@@ -18,6 +18,12 @@ module.exports = (server, app) => {
     app.render(req, res, actualPage, queryParams)
   })
 
+  server.get('/products/:id', (req, res) => {
+    const actualPage = '/product'
+    const queryParams = { id: req.params.id }
+    app.render(req, res, actualPage, queryParams)
+  })
+
   server.post('/charge', charge)
 
   server.post('/save', save)

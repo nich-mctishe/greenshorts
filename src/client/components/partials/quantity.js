@@ -14,12 +14,14 @@ export default class Quantity extends Component {
 
   static propTypes = {
     items: PropTypes.array,
-    item: PropTypes.object
+    item: PropTypes.object,
+    single: PropTypes.bool
   }
 
   static defaultProps = {
     items: [],
-    item: {}
+    item: {},
+    single: false
   }
 
   state = {
@@ -51,7 +53,11 @@ export default class Quantity extends Component {
   }
 
   componentWillMount () {
-    this.setState({ item: find(this.props.items, { product: { _id: this.props.item.product._id } }) })
+    if (this.props.single) {
+      this.setState({ item: this.props.item })
+    } else {
+      this.setState({ item: find(this.props.items, { product: { _id: this.props.item.product._id } }) })
+    }
   }
 
   render () {
