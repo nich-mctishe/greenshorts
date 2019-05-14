@@ -82,8 +82,8 @@ export default class Success extends Component {
   render () {
     return (
       <section>
-        <h1>Your order has been placed</h1>
-        <h2>whats in your order</h2>
+        <h1>Your order has been placed!</h1>
+        <h2>whats in your order:</h2>
         <ul>
         {this.props.items && this.props.items.map(item => (
           <li key={item.product._id}>{item.quantity} x {item.product.name}, {item.size} = £{item['total-cost']}</li>
