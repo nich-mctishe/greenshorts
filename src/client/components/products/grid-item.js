@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 import { findIndex } from 'lodash'
@@ -35,10 +35,10 @@ export default class GridItem extends Component {
 
   render () {
     return (
-      <Fragment>
+      <section className="shop--item">
         <Link as={`/products/${this.props._id}`} href={`/product?id=${this.props._id}`}>
           <a>
-            <div className="shop--item">
+            <div className="shop--item--body">
               <div className="top">
                 <div className="img--wrapper">
                   <div className="img" style={{backgroundImage: `url(${this.props.image})`}}/>
@@ -54,7 +54,7 @@ export default class GridItem extends Component {
           </a>
         </Link>
         <button onClick={this.onClick}>add to cart</button>
-      </Fragment>
+      </section>
     )
   }
 }
