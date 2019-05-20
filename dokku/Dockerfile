@@ -1,4 +1,4 @@
-FROM node:6.9.5
+FROM node:10.15.0
 
 COPY src /app
 COPY dokku/CHECKS /app/CHECKS
