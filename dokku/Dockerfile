@@ -9,4 +9,4 @@ WORKDIR /app
 
 ENV NODE_ENV production
 
-CMD [ "npm", "run", "start" ]
+CMD [ "node", "server/index.js" ]
