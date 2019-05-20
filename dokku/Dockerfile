@@ -9,4 +9,4 @@ WORKDIR /app
 
 ENV NODE_ENV production
 
-CMD [ "node", "index" ]
+CMD [ "npm", "run", "start" ]
