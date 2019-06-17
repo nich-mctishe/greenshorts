@@ -7,8 +7,5 @@ src/client/.next
 
 src/node_modules
 
-<<<<<<< HEAD
 ENVIRONMENT_LOCAL
-=======
->>>>>>> framework
 ENVIRONMENT
