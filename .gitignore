@@ -5,3 +5,6 @@
 src/client/.next
 
 src/node_modules
+
+ENVIRONMENT_LOCAL
+ENVIRONMENT
