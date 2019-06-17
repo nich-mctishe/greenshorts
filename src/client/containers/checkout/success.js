@@ -1,12 +1,11 @@
 import { connect } from 'react-redux'
-import Payment from '../../components/checkout/payment'
+import Success from '../../components/checkout/success'
 import { setPaid } from '../../actions/checkout'
+import { emptyCart } from '../../actions/cart'
 
 const mapStateToProps = (state, ownProps) => ({
   firstname: state.checkout.firstname,
   lastname: state.checkout.lastname,
-  email: state.checkout.email,
-  phone: state.checkout.phone,
   billingAddressLine1: state.checkout.billingAddressLine1,
   billingAddressLine2: state.checkout.billingAddressLine2,
   billingAddressLine3: state.checkout.billingAddressLine3,
@@ -22,22 +21,22 @@ const mapStateToProps = (state, ownProps) => ({
   shippingCounty: state.checkout.shippingCounty,
   shippingCountry: state.checkout.shippingCountry,
   shippingPostcode: state.checkout.shippingPostcode,
-  tandc: state.checkout.tandc,
-  contactTime: state.checkout.contactTime,
-  instructions: state.checkout.instructions,
   items: state.cart.items,
-  value: state.cart.value
+  subtotal: state.cart.value
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   setPaid: paid => {
     dispatch(setPaid(paid))
+  },
+  emptyCart: _ => {
+    dispatch(emptyCart())
   }
 })
 
-const PaymentContainer = connect(
+const SuccessContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Payment)
+)(Success)
 
-export default PaymentContainer
+export default SuccessContainer

@@ -1,10 +1,14 @@
 
 *.DS_Store
+ENVIRONMENT_LOCAL
 
 .wercker
 src/client/.next
 
 src/node_modules
 
+<<<<<<< HEAD
 ENVIRONMENT_LOCAL
+=======
+>>>>>>> framework
 ENVIRONMENT

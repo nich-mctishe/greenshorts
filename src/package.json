@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "lint": "node_modules/.bin/standard",
-    "dev": "node_modules/.bin/forever --killSignal=SIGTERM --minUptime 1000 --spinSleepTime 1000 server/index.js -p 80",
+    "dev": "node_modules/.bin/forever --killSignal=SIGTERM --minUptime 1000 --spinSleepTime 1000 server/index.js -p 3000",
     "build": "next build client",
     "export": "next export client",
     "start": "next build client && next start client -p 80",
@@ -55,11 +55,15 @@
     "lodash": "4.17.11",
     "stripe": "6.28.0",
     "body-parser": "1.18.3",
-    "joi": "14.3.1"
+    "joi": "14.3.1",
+    "async": "2.6.2",
+    "next-ga": "2.3.4",
+    "react-stripe-elements": "2.0.3",
+    "redux-persist": "5.10.0",
+    "redux-persist-transform-encrypt": "2.0.1",
+    "cors": "2.8.5"
   },
   "devDependencies": {
-    "chokidar": "2.1.2",
-    "next-ga": "2.3.4",
-    "react-stripe-elements": "2.0.3"
+    "chokidar": "2.1.2"
   }
 }

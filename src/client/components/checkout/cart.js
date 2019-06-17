@@ -2,16 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 import Quantity from '../../containers/partials/quantity'
-
-// could put this in a helper file in lib
-const getPrice = (cost, quantity) => {
-  return Number(cost) * Number(quantity)
-}
+import { getPrice } from '../../lib/checkout'
 
 export default class Cart extends Component {
-
-  // i assume that redux vars is passed in as props
-
   static propTypes = {
     items: PropTypes.array,
     value: PropTypes.number
@@ -29,8 +22,6 @@ export default class Cart extends Component {
   render () {
     const { items, value, empty } = this.props
 
-    console.log('rendering');
-
     return (
       <section className="cart">
         <div className="cart--intro">
@@ -38,7 +29,7 @@ export default class Cart extends Component {
             <span>There is nothing in your cart!</span>
           )}
           {items.length > 0 && (
-            <span>There are {items.length} items in your cart</span>
+            <span>There {items.length > 1 ? 'are' : 'is'} {items.length} item{items.length > 1 ? 's' : ''} in your cart</span>
           )}
         </div>
         <div className="cart--list">
@@ -50,7 +41,7 @@ export default class Cart extends Component {
                     <div className="item--details">
                       <ul>
                         <li>
-                          {item.name}
+                          {item.product.name}
                         </li>
                         <li>
                           £{item.price}
@@ -83,7 +74,6 @@ export default class Cart extends Component {
         <div className="cart--empty-icon">
           <button onClick={empty}>Empty Cart</button>
         </div>
-
       </section>
     )
   }

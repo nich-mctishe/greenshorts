@@ -1,6 +1,4 @@
 import { each, filter, findIndex, assign, merge } from 'lodash'
-
-
 import { ADD_TO_CART } from '../actions/cart'
 import { REMOVE_FROM_CART } from '../actions/cart'
 import { UPDATE_QUANTITY } from '../actions/cart'
@@ -15,10 +13,15 @@ const INITIAL_STATE = {
 // may need to think about removing faulty values
 const itemTemplate = (data) => {
   return {
-    sku: data.sku || null,
-    name: data.name || null,
+    product: {
+      _id: data._id || null,
+      sku: data.sku || null,
+      name: data.name || null
+    },
+    size: data.size || null,
     quantity: data.quantity || 1,
-    price: data.price || 0
+    price: data.price || 0,
+    'total-cost': data.price * (data.quantity || 1) || 0
   }
 }
 
@@ -62,7 +65,7 @@ export default function cartReducer (state, action) {
 
       return updateState(state, {
         items: items,
-        value:  getCartValue(items)
+        value: getCartValue(items)
       })
     case REMOVE_FROM_CART:
       // search for product by sku and remove
@@ -76,7 +79,7 @@ export default function cartReducer (state, action) {
       })
     case UPDATE_QUANTITY:
       // pass back htorugh entire cart or get and find product then amend
-      const index = findIndex(state.items, { sku: action.item.sku })
+      const index = findIndex(state.items, { product: { _id: action.item.product._id } })
       let itemsToUpdate = state.items
       itemsToUpdate[index].quantity = action.item.quantity
 

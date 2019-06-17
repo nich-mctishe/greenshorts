@@ -6,7 +6,7 @@ const _ = require('lodash')
 let settings = {
   rules: {
     required: (value) => {
-      return value && value !== '' && value !== false && !!value.trim().length
+      return value && value !== '' && value !== false && (typeof value === 'boolean' || !!value.trim().length)
     },
     email: (value) => {
       return /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
@@ -40,7 +40,8 @@ let settings = {
     postcode: "Please enter a valid UK postcode",
     notExist: "The field does not exist in the input spec",
     max: "This field currently exceeds the required amount of characters",
-    min: "This field currently has less than the required amount of characters"
+    min: "This field currently has less than the required amount of characters",
+    bool: "This field must be either true or false"
   }
 }
 

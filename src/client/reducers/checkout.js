@@ -10,6 +10,8 @@ import {
   SET_BILLING_LINE_2,
   SET_BILLING_LINE_3,
   SET_BILLING_CITY,
+  SET_BILLING_COUNTY,
+  SET_BILLING_COUNTRY,
   SET_BILLING_POSTCODE,
   SET_SAME_ADDRESS,
   SET_SHIPPING_NAME,
@@ -17,11 +19,14 @@ import {
   SET_SHIPPING_LINE_2,
   SET_SHIPPING_LINE_3,
   SET_SHIPPING_CITY,
+  SET_SHIPPING_COUNTY,
   SET_SHIPPING_POSTCODE,
+  SET_SHIPPING_COUNTRY,
   SET_READ_TANDC,
   IS_PAID,
   IS_SAVED_TO_DB,
-  IS_EMAIL_SENT
+  IS_EMAIL_SENT,
+  SET_INSTRUCTIONS
 } from '../actions/checkout'
 
 // need to consider uploading this information to the db also for proseperity and to ensure session integrity
@@ -29,7 +34,7 @@ import {
 // need to also make sure cookie is checked to ensure we know when the session should expire
 
 const INITIAL_STATE = {
-  cookie: '',
+  number: '',
   firstname: 'Nich',
   lastname: 'McTishe',
   email: '',
@@ -38,14 +43,19 @@ const INITIAL_STATE = {
   billingAddressLine2: '',
   billingAddressLine3: '',
   billingCity: '',
+  billingCounty: '',
   billingPostcode: '',
+  billingCountry: 'United Kingdom',
   shippingName: '',
   shippingAddressLine1: '',
   shippingAddressLine2: '',
   shippingAddressLine3: '',
   shippingCity: '',
+  shippingCounty: '',
   shippingPostcode: '',
+  shippingCountry: 'United Kingdom',
   contactTime: '',
+  instructions: '',
   shippingIsBilling: true,
   paid: false,
   savedToDb: false,
@@ -95,16 +105,24 @@ export default function checkoutReducer (state, action) {
       return updateState(state, {
         contactTime: action.item
       })
+    case SET_INSTRUCTIONS:
+      return updateState(state, {
+        instructions: action.item
+      })
+    case SET_BILLING_CITY:
+      return handleDualUpdate(state, 'billingCity', action.item)
     case SET_BILLING_LINE_1:
       return handleDualUpdate(state, 'billingAddressLine1', action.item)
     case SET_BILLING_LINE_2:
       return handleDualUpdate(state, 'billingAddressLine2', action.item)
     case SET_BILLING_LINE_3:
       return handleDualUpdate(state, 'billingAddressLine3', action.item)
-    case SET_BILLING_CITY:
-      return handleDualUpdate(state, 'billingCity', action.item)
+    case SET_BILLING_COUNTY:
+      return handleDualUpdate(state, 'billingCounty', action.item)
     case SET_BILLING_POSTCODE:
       return handleDualUpdate(state, 'billingPostcode', action.item)
+    case SET_BILLING_COUNTRY:
+      return handleDualUpdate(state, 'billingCountry', action.item)
     case SET_SHIPPING_NAME:
       return updateState(state, {
         shippingName: action.item
@@ -125,9 +143,17 @@ export default function checkoutReducer (state, action) {
       return updateState(state, {
         shippingCity: action.item
       })
+    case SET_SHIPPING_COUNTY:
+      return updateState(state, {
+        shippingCounty: action.item
+      })
     case SET_SHIPPING_POSTCODE:
       return updateState(state, {
         shippingPostcode: action.item
+      })
+    case SET_SHIPPING_COUNTRY:
+      return updateState(state, {
+        shippingCountry: action.item
       })
     case SET_SAME_ADDRESS:
       return updateState(state, {
@@ -135,7 +161,7 @@ export default function checkoutReducer (state, action) {
       })
     case IS_PAID:
       return updateState(state, {
-        paid: action.item
+        paid: action.paid
       })
     case IS_SAVED_TO_DB:
       return updateState(state, {

@@ -14,12 +14,14 @@ export default class Quantity extends Component {
 
   static propTypes = {
     items: PropTypes.array,
-    item: PropTypes.object
+    item: PropTypes.object,
+    single: PropTypes.bool
   }
 
   static defaultProps = {
     items: [],
-    item: {}
+    item: {},
+    single: false
   }
 
   state = {
@@ -31,7 +33,7 @@ export default class Quantity extends Component {
     const updatedItem = updateValue(item, Number(item.quantity) - 1)
 
     this.props.updateQuantity(updatedItem)
-    this.setState({ item: updatedItem})
+    this.setState({ item: updatedItem })
   }
 
   increase = () => {
@@ -39,7 +41,7 @@ export default class Quantity extends Component {
     const updatedItem = updateValue(item, Number(item.quantity) + 1)
 
     this.props.updateQuantity(updatedItem)
-    this.setState({ item: updatedItem})
+    this.setState({ item: updatedItem })
   }
 
   input = event => {
@@ -47,11 +49,15 @@ export default class Quantity extends Component {
     const updatedItem = updateValue(item, event.target.value)
 
     this.props.updateQuantity(updatedItem)
-    this.setState({ item: updatedItem})
+    this.setState({ item: updatedItem })
   }
 
   componentWillMount () {
-    this.setState({ item:  find(this.props.items, { sku: this.props.item.sku }) })
+    if (this.props.single) {
+      this.setState({ item: this.props.item })
+    } else {
+      this.setState({ item: find(this.props.items, { product: { _id: this.props.item.product._id } }) })
+    }
   }
 
   render () {

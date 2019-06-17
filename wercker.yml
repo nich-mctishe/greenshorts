@@ -1,23 +1,21 @@
 box:
   id: node
-  tag: 8.10.0
+  tag: 10.15.0
   ports:
-    - '80'
-    - '8888'
-    - '8889'
+    - '3000'
 
 services:
   - id: mongo
     tag: 3.4.1
     ports:
-     - '27017'
+     - '27770'
 
 dev:
   steps:
     - script:
         name: check local environment
         code: |
-          [[ -f ENVIRONMENT_LOCAL || "$(cat ENVIRONMENT_LOCAL.template | xargs)" == "" ]] || ( echo "No ENVIRONMENT_LOCAL present, please create one based on ENVIRONMENT_LOCAL.template" && exit 1 )
+          [[ -f ENVIRONMENT_LOCAL || "$(cat ENVIRONMENT_LOCAL | xargs)" == "" ]] || ( echo "No ENVIRONMENT_LOCAL present, please create one based on ENVIRONMENT_LOCAL.template" && exit 1 )
         cwd: $WERCKER_ROOT
     - script:
       name: remove cache
@@ -35,6 +33,7 @@ dev:
     - script:
         name: run
         code: |
+          source $WERCKER_ROOT/ENVIRONMENT_LOCAL
           touch /var/log/express.log
           yarn dev >> /var/log/express.log 2>&1 &
         cwd: $WERCKER_ROOT/src
@@ -54,8 +53,8 @@ build:
         name: run tests
         cwd: $WERCKER_ROOT/src
     - script:
-        name: run webpack
-        code: npm run webpack -- -p
+        name: run build
+        code: npm run build
         cwd: $WERCKER_ROOT/src
     - script:
         name: export the application
@@ -63,7 +62,6 @@ build:
           cp -r "$WERCKER_ROOT/src" "$WERCKER_OUTPUT_DIR"
           cp -r "$WERCKER_ROOT/dokku" "$WERCKER_OUTPUT_DIR"
           mv "$WERCKER_OUTPUT_DIR/dokku/Dockerfile" "$WERCKER_OUTPUT_DIR/Dockerfile"
-          cp "$WERCKER_ROOT/tools/healthcheck" "$WERCKER_OUTPUT_DIR/healthcheck"
           rm -rf "$WERCKER_OUTPUT_DIR/src/node_modules"
           rm -rf "$WERCKER_OUTPUT_DIR/src/public/css"
     - npm-install:

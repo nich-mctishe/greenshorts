@@ -30,6 +30,15 @@ To exit fully from the container, hit `ctrl+c` to exit the log viewer and then t
 
 Any environment variables which need to be supplied when developing locally can be placed in the `ENVIRONMENT` file, with variable names prefixed with `X_`. For any variables which you don't want adding to the repository can be added to the `ENVIRONMENT_LOCAL.template` file, without the `X_` prefix. If this template file is not empty, the application will not start without an `ENVIRONMENT_LOCAL` file being created.
 
+some required env vars:
+- X_API_NETWORK= eg. strapi
+- X_PAYMENT_NETWORK=eg. stripe
+- X_API_BASE_URL=eg http://api.greenshorts.com
+- X_STRIPE_KEY_PUBLIC=if using, it'll be the pk_test_[key]
+- X_STRIPE_KEY_SECRET=if using, it'll be the sk_test_[key]
+- X_API_USERNAME= the name of the user in the api ie. order-placer
+- X_API_PASSWORD= the password of the api user ie. order-placer-password
+
 ### Seeding
 this framework uses the node-seeder package to facilitate the quick seeding and updating of data.
 check out https://github.com/nich-mctishe/node-seeder for more info.

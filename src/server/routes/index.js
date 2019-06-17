@@ -2,10 +2,9 @@
  * actions
  */
 const base = require('../actions/base')
-/**
- * services
- */
-const Order = require('../services/order')
+const charge = require('../actions/charge')
+const save = require('../actions/save')
+const retrieve = require('../actions/retrieve')
 
 module.exports = (server, app) => {
   /**
@@ -19,40 +18,15 @@ module.exports = (server, app) => {
     app.render(req, res, actualPage, queryParams)
   })
 
-  server.post('/charge', async (req, res) => {
-    let order = new Order(req, res)
-    const stripe = require("stripe")("sk_test_y60j9PyE9kzQKV2uVL8g05Yh")
-
-    order.process()
-
-    if (order.valid) {
-      try {
-        // this will need to be modified
-        let {status} = await stripe.charges.create({
-          amount: 2000,
-          currency: "gbp",
-          description: "An example charge",
-          source: order.formatted // was req.body with a flat token, may need to amend back
-        })
-
-        // send requires to headless cms
-        order.post()
-
-        res.json({status})
-      } catch (err) {
-        // turn these into proper errors --> could use async for all this
-        res.status(500)
-        res.json({
-          error: true,
-          messages: Object.assign(order.messages, err)
-        })
-      }
-    } else {
-      res.status(500)
-      res.json({
-        error: true,
-        messages: order.messages
-      })
-    }
+  server.get('/products/:id', (req, res) => {
+    const actualPage = '/product'
+    const queryParams = { id: req.params.id }
+    app.render(req, res, actualPage, queryParams)
   })
+
+  server.post('/charge', charge)
+
+  server.post('/save', save)
+
+  server.get('/order/:id', retrieve)
 }
