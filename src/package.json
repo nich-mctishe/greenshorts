@@ -46,7 +46,7 @@
     "redux-logger": "3.0.6",
     "redux-thunk": "2.3.0",
     "redux-promise-middleware": "5.1.1",
-    "axios": "0.18.0",
+    "axios": "0.21.1",
     "cross-env": "5.2.0",
     "webpack-bundle-analyzer": "2.13.1",
     "node-seeder": "1.1.2",
