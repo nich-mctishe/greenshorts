@@ -52,7 +52,7 @@
     "node-seeder": "1.1.2",
     "mongoose": "5.4.18",
     "mongoose-find-or-create": "1.2.0",
-    "lodash": "4.17.11",
+    "lodash": "4.17.21",
     "stripe": "6.28.0",
     "body-parser": "1.18.3",
     "joi": "14.3.1",
